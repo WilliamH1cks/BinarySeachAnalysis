@@ -1,10 +1,19 @@
 // BinarySeachAnalysis.cpp : This file contains the 'main' function. Program execution begins and ends there
 //
 
+#pragma comment(linker, "/STACK:8000000")
+
+
 #include <iostream>
 #include <vector>
 #include <random>
+#include <chrono>
 using namespace std;
+
+int N = 5000;
+double SumRBS = 0;
+double SumIBS = 0;
+double SumSeqS = 0;
 
 //Precondition: The target value of the vector/list and its location is given (Location is -1 if the value doesn't appear in said array)
 //Postcondition: Prints whether the list/vector/array has the target value, and at what location.
@@ -110,49 +119,50 @@ void sort(vector<int>& vec, int start, int end)
 }
 
 //A main program is a main program. This one happens to be for randomly generating a list,
-//      sorting said list, searching for a random valuye, and eventually seeing which of the three search methods is the quickest.
+//      sorting said list, searching for a random valuye, and seeing which of the three search methods is the quickest.
 int main()
 {
-    //vector<int> arr = { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 };
-    int size = 20;
-    vector<int> vec(size);
-    //cout << vec.size() << endl;
-    for (int i = 0; i < vec.size(); i++)
+    for (int i = 0; i < 10; i++)
     {
-        int num = ranNumGen();
-        vec[i] = num;
+        vector<int> vec(N);
+        for (int i = 0; i < vec.size(); i++)
+        {
+            int num = ranNumGen();
+            vec[i] = num;
+        }
+
+        sort(vec, 0, vec.size());
+
+        //cout << "\nVector done, now for the target value..." << endl;
+        int target1 = ranNumGen();
+
+        auto start = chrono::high_resolution_clock::now();
+        int RBSresult1 = recursiveBiSearch(vec, target1, 0, vec.size() - 1);
+        auto end = chrono::high_resolution_clock::now();
+        //doesExist(RBSresult1, target1);
+        auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
+        SumRBS += duration;
+
+
+        start = chrono::high_resolution_clock::now();
+        int IBSresult1 = iterativeBiSearch(vec, target1);
+        end = chrono::high_resolution_clock::now();
+        //doesExist(IBSresult1, target1);
+        duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
+        SumIBS += duration;
+        
+
+        start = chrono::high_resolution_clock::now();
+        int seqResult1 = seqSearch(vec, target1);
+        end = chrono::high_resolution_clock::now();
+        //doesExist(seqResult1, target1);
+        duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
+        SumSeqS += duration;
     }
 
-    //Printing vector BEFORE sort
-    cout << "Unsorted: ";
-    for (int i = 0; i < vec.size(); i++)
-        cout << vec[i] << " ";
-    cout << endl;
+    cout << "Avg Running Time for Recursive Binary Search: " << SumRBS / 10 << " microseconds" << endl;
+    cout << "Avg Running Time for Iterative Binary Search: " << SumIBS / 10 << " microseconds" << endl;
+    cout << "Avg Running Time for Sequential Search:       " << SumSeqS / 10 << " microseconds" << endl;
 
-    //THIS IS WHERE THE SORT LIES ONCE I HAVE IT WORKING
-    sort(vec, 0, vec.size());
-
-    cout << "Sorted:   ";
-    //Printing vector AFTER sort
-    for (int i = 0; i < vec.size(); i++)
-        cout << vec[i] << " ";
-    cout << endl;
-
-    cout << "\nVector done, now for the target value..." << endl;
-    int target1 = ranNumGen();
-
-    int RBSresult1 = recursiveBiSearch(vec, target1, 0, vec.size() - 1);
-    doesExist(RBSresult1, target1);
-    //int RBSresult2 = recursiveBiSearch(vec, target2, 0, arr.size() - 1);
-    //doesExist(RBSresult2, target2);
-
-    int IBSresult1 = iterativeBiSearch(vec, target1);
-    doesExist(IBSresult1, target1);
-    //int IBSresult2 = iterativeBiSearch(vec, target2);
-    //doesExist(IBSresult2, target2);
-
-    int seqResult1 = seqSearch(vec, target1);
-    doesExist(seqResult1, target1);
-    //int seqResult2 = seqSearch(vec, target2);
-    //doesExist(seqResult2, target2);
+    return 0;
 }
