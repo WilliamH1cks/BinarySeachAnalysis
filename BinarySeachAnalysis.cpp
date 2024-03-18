@@ -6,6 +6,8 @@
 #include <random>
 using namespace std;
 
+//Precondition: The target value of the vector/list and its location is given (Location is -1 if the value doesn't appear in said array)
+//Postcondition: Prints whether the list/vector/array has the target value, and at what location.
 void doesExist(int location, int target)
 {
     if (location < 0)
@@ -14,6 +16,8 @@ void doesExist(int location, int target)
         cout << "Element " << target << " found at index " << location << endl;
 }
 
+
+//Randomly generates integers from 1 to 100
 int ranNumGen()
 {
     int rangeMax = 100;
@@ -28,8 +32,8 @@ int ranNumGen()
     return randomNumber;
 }
 
-
-
+//Precond: An integer to search for in a vector is given
+//Postcond: Returns the location (-1 if nonexistant) of the value through recursively dividing up the vector into smaller chunks.
 int recursiveBiSearch(const vector<int>& vec, int target, int low, int high)
 {
     
@@ -48,6 +52,8 @@ int recursiveBiSearch(const vector<int>& vec, int target, int low, int high)
         return -1;
 }
 
+//Precond: An integer to search for in a vector is given
+//Postcond: Returns the location (-1 if nonexistant) of the value through iterating the vector into smaller chunks.
 int iterativeBiSearch(const vector<int>& vec, int target)
 {
     int low = 0;
@@ -68,6 +74,8 @@ int iterativeBiSearch(const vector<int>& vec, int target)
     return -1;
 }
 
+//Precond: An integer to search for in a vector is given
+//Postcond: Returns the location (-1 if nonexistant) of the value through manually searching each entry, from start to finish.
 int seqSearch(const vector<int>& vec, int target)
 {
     for (int i = 0; i < vec.size(); i++)
@@ -77,6 +85,10 @@ int seqSearch(const vector<int>& vec, int target)
     return -1;
 }
 
+//Sorts the randomly-generated list for use of binary searches.
+//  NOTE: While not the most efficient available, an insertion sort was used because otherwise my head would implode.
+//        It's not that i do not understand the more complex sorts' functions or general behavior, but it is the constant errors
+//        on vector overflowing and out-of-bounds that I did get tired of.
 void sort(vector<int>& vec, int start, int end)
 {
     for (int i = 1; i < vec.size(); i++)
@@ -97,6 +109,8 @@ void sort(vector<int>& vec, int start, int end)
     }
 }
 
+//A main program is a main program. This one happens to be for randomly generating a list,
+//      sorting said list, searching for a random valuye, and eventually seeing which of the three search methods is the quickest.
 int main()
 {
     //vector<int> arr = { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 };
