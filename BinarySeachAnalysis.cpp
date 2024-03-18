@@ -16,7 +16,7 @@ void doesExist(int location, int target)
 
 int ranNumGen()
 {
-    int rangeMax = 10;
+    int rangeMax = 100;
 
     mt19937 rng(random_device{}());
 
