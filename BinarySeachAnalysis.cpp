@@ -80,6 +80,7 @@ void merge(vector<int> vec, int low, int high, int mid)
     }
 
     return;
+    //This comment is added toensure the latest version is committed to github
 }
 
 void mergeSort(vector<int> vec, int const begin, int const end)
