@@ -28,76 +28,7 @@ int ranNumGen()
     return randomNumber;
 }
 
-void merge(vector<int> vec, int low, int high, int mid)
-{
-    int const leftSize = mid - low;
-    int const rightSize = high - mid + 1;
 
-    vector<int> left(leftSize);
-    vector<int> right(rightSize);
-
-    //for (int i = 0; i < leftSize; i++)
-        //left[i] = vec[low + i];
-    //for (int i = 0; i < rightSize; i++)
-        //right[i] = vec[mid + 1 + i];
-
-    //int leftIndex = 0;
-    //int rightIndex = 0;
-    size_t leftIndex = 0;
-    size_t rightIndex = 0;
-    //int mergedIndex = low;
-
-    while (leftIndex < leftSize && rightIndex < rightSize)
-    {
-        
-        if (left[leftIndex] >= right[rightIndex])
-        {
-            vec.push_back(left[leftIndex]);
-            //leftIndex++;
-        }
-        else
-        {
-            vec.push_back(right[rightIndex]);
-            //rightIndex++;
-        }
-        //mergedIndex++;
-    }
-
-    while (leftIndex < leftSize)
-    {
-        //vec[mergedIndex] = left[leftIndex];
-        vec.push_back(left[leftIndex]);
-        //leftIndex++;
-        //mergedIndex++;
-    }
-
-    while (rightIndex < rightSize)
-    {
-        //vec[mergedIndex] = right[rightIndex];
-        vec.push_back(right[rightIndex]);
-        //rightIndex++;
-        //mergedIndex++;
-    }
-
-    return;
-    //This comment is added toensure the latest version is committed to github
-}
-
-void mergeSort(vector<int> vec, int const begin, int const end)
-{
-    if (begin >= end)
-        return;
-
-    int mid = vec.size() / 2;
-    mergeSort(vec, 0, mid);
-    mergeSort(vec, mid + 1, vec.size());
-    merge(vec, 0, mid, vec.size());
-
-    cout << "Test:     ";
-    for (int i = 0; i < vec.size(); i++)
-        cout << vec[i] << " ";
-    cout << endl;
-}
 
 int recursiveBiSearch(const vector<int>& vec, int target, int low, int high)
 {
@@ -146,6 +77,26 @@ int seqSearch(const vector<int>& vec, int target)
     return -1;
 }
 
+void sort(vector<int>& vec, int start, int end)
+{
+    for (int i = 1; i < vec.size(); i++)
+    {
+        if (vec[i] < vec[i - 1])
+        {
+            int temp = vec[i];
+            int loc = i;
+
+            while (loc > 0 && vec[loc - 1] > temp)
+            {
+                vec[loc] = vec[loc - 1];
+                loc--;
+            }
+
+            vec[loc] = temp;
+        }
+    }
+}
+
 int main()
 {
     //vector<int> arr = { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 };
@@ -164,9 +115,10 @@ int main()
         cout << vec[i] << " ";
     cout << endl;
 
-    mergeSort(vec, 0, vec.size() - 1);
+    //THIS IS WHERE THE SORT LIES ONCE I HAVE IT WORKING
+    sort(vec, 0, vec.size());
 
-    cout << "Sorted: ";
+    cout << "Sorted:   ";
     //Printing vector AFTER sort
     for (int i = 0; i < vec.size(); i++)
         cout << vec[i] << " ";
