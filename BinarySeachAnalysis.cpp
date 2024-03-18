@@ -47,7 +47,7 @@ int iterativeBiSearch(const vector<int>& arr, int target)
 int seqSearch(const vector<int>& arr, int target)
 {
     for (int i = 0; i < arr.size(); i++)
-        if (arr[1] == target)
+        if (arr[i] == target)
             return i;
 
     return -1;
