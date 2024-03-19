@@ -1,16 +1,13 @@
 // BinarySeachAnalysis.cpp : This file contains the 'main' function. Program execution begins and ends there
 //
 
-#pragma comment(linker, "/STACK:8000000")
-
-
 #include <iostream>
 #include <vector>
 #include <random>
 #include <chrono>
 using namespace std;
 
-int N = 5000;
+int N = 250000;
 double SumRBS = 0;
 double SumIBS = 0;
 double SumSeqS = 0;
@@ -139,7 +136,7 @@ int main()
         auto start = chrono::high_resolution_clock::now();
         int RBSresult1 = recursiveBiSearch(vec, target1, 0, vec.size() - 1);
         auto end = chrono::high_resolution_clock::now();
-        //doesExist(RBSresult1, target1);
+        doesExist(RBSresult1, target1);
         auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         SumRBS += duration;
 
@@ -147,7 +144,7 @@ int main()
         start = chrono::high_resolution_clock::now();
         int IBSresult1 = iterativeBiSearch(vec, target1);
         end = chrono::high_resolution_clock::now();
-        //doesExist(IBSresult1, target1);
+        doesExist(IBSresult1, target1);
         duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         SumIBS += duration;
         
@@ -155,7 +152,7 @@ int main()
         start = chrono::high_resolution_clock::now();
         int seqResult1 = seqSearch(vec, target1);
         end = chrono::high_resolution_clock::now();
-        //doesExist(seqResult1, target1);
+        doesExist(seqResult1, target1);
         duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
         SumSeqS += duration;
     }
